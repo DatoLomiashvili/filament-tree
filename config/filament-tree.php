@@ -17,4 +17,8 @@ return [
      * Tree model default children key name
      */
     'default_children_key_name' => 'children',
+    /**
+     * translation languages
+     */
+    'locales' => ['en', 'ge']
 ];

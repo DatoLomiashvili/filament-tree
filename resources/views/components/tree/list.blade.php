@@ -11,7 +11,9 @@
 ])>
     @foreach ($records ?? [] as $record)
         @php
-            $title = $this->getTreeRecordTitle($record);
+            $titles = $this->getTranslatedTreeRecordTitles($record);
+            $locale = $this->activeLocale ?? 'en';
+            $title = $titles[$locale];
             $icon = $this->getTreeRecordIcon($record);
         @endphp
         <x-filament-tree::tree.item

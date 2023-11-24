@@ -5,6 +5,7 @@ namespace SolutionForest\FilamentTree\Concern;
 use Closure;
 use Filament\Notifications\Notification;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\App;
 use SolutionForest\FilamentTree\Components\Tree;
 use SolutionForest\FilamentTree\Concern\HasActions;
 use SolutionForest\FilamentTree\Concern\HasRecords;
@@ -62,7 +63,24 @@ trait InteractWithTree
         if (! $record) {
             return '';
         }
+        config('filament-tree.default_parent_id', -1);
         return $record->{(method_exists($record, 'determineTitleColumnName') ? $record->determineTitleColumnName() : 'title')};
+    }
+
+    public function getTranslatedTreeRecordTitles(?Model $record = null): array
+    {
+        if (! $record) {
+            return [];
+        }
+        $startingLocale = App::getLocale();
+        $locales = config('filament-tree.locales', ['en', 'ge']);
+        $titles = [];
+        foreach ($locales as $locale) {
+            App::setLocale($locale);
+            $titles[$locale] = $record->{(method_exists($record, 'determineTitleColumnName') ? $record->determineTitleColumnName() : 'title')};
+        }
+        App::setLocale($startingLocale);
+        return $titles;
     }
 
     public function getTreeRecordIcon(?Model $record = null): ?string
