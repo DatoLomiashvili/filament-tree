@@ -13,7 +13,6 @@ interface HasTree
     public function updateTree(?array $list = null): array;
     public function getTreeRecordTitle(?Model $record = null): string;
     public function getTranslatedTreeRecordTitles(?Model $record = null): array;
-
     public function getRecordKey(?Model $record): ?string;
     public function makeFilamentTranslatableContentDriver(): ?TranslatableContentDriver;
 }
